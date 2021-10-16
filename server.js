@@ -61,24 +61,45 @@ app.post('/register', (req, res) => {
     });
 });
 
+// app.post('/login', (req, res) => {
+//     const email = req.body.username;
+//     const password = req.body.password;
+
+//     User.findOne({email: email, password: password}, (err, user) => {
+//         if(err) {
+//             console.error(err);
+//         } else {
+//             if(user){
+//                 console.log('You are already registered!');
+//                 res.render('secrets');
+//             } else {
+//                 console.error('You are never registered!');
+//             }
+//         }
+//     });
+// });
+
 app.post('/login', (req, res) => {
     const email = req.body.username;
     const password = req.body.password;
 
-    User.findOne({email: email, password: password}, (err, user) => {
+    User.findOne({email: email}, (err, user) => {
         if(err) {
             console.error(err);
         } else {
             if(user){
-                console.log('You are already registered!');
-                res.render('secrets');
+                if(user.password === password) {
+                    console.log('You are already registered!');
+                    res.render('secrets');
+                } else {
+                    console.error('Wrong password!');
+                }
             } else {
                 console.error('You are never registered!');
             }
         }
     });
 });
-
 
 // Port website will run on
 const port = 3000;
