@@ -3,7 +3,7 @@
 const express = require('express');
 const ejs = require('ejs');
 // Initialize Express
-const encrypt = require('mongoose-encryption');
+let encrypt = require('mongoose-encryption');
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 main().catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/userEncryptedDB', { useNewUrlParser: true });
+    await mongoose.connect('mongodb://localhost:27017/userDB', { useNewUrlParser: true });
 }
 
 const userSchema = new mongoose.Schema({
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     password: String
 });
 
-const secret = 'xxs4Ox4nSKSVnJzIxzy+es6ouOmoMcqcarAnEVRP26Q=';
+let secret = 'xxs4Ox4nSKSVnJzIxzy+es6ouOmoMcqcarAnEVRP26Q=';
 
 userSchema.plugin(encrypt, {secret: secret, encryptedFields: ['password']});
 
@@ -73,7 +73,7 @@ app.post('/login', (req, res) => {
                 console.log('You are already registered!');
                 res.render('secrets');
             } else {
-                console.log('You are never registered!');
+                console.error('You are never registered!');
             }
         }
     });
