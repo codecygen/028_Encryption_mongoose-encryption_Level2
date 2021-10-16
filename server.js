@@ -3,6 +3,7 @@
 const express = require('express');
 const ejs = require('ejs');
 // Initialize Express
+const encrypt = require('mongoose-encryption');
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -17,13 +18,17 @@ app.set('view engine', 'ejs');
 main().catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/userDB', { useNewUrlParser: true });
+    await mongoose.connect('mongodb://localhost:27017/userEncryptedDB', { useNewUrlParser: true });
 }
 
 const userSchema = new mongoose.Schema({
     email: String,
     password: String
 });
+
+const secret = 'xxs4Ox4nSKSVnJzIxzy+es6ouOmoMcqcarAnEVRP26Q=';
+
+userSchema.plugin(encrypt, {secret: secret, encryptedFields: ['password']});
 
 const User = mongoose.model('User', userSchema);
 
