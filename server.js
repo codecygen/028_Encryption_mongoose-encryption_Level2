@@ -61,6 +61,11 @@ app.post('/register', (req, res) => {
     });
 });
 
+// Do not use findOne method with 2 parameters, this is not how it is documented.
+// Use only email or password instead. See below app.post code for more details
+// on how to use both values to validate if a user registered and entered correct password,
+// used wrong password or never registered.
+
 // app.post('/login', (req, res) => {
 //     const email = req.body.username;
 //     const password = req.body.password;
