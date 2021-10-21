@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 main().catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/userDB', { useNewUrlParser: true });
+    await mongoose.connect('mongodb://localhost:27017/passEncryptDB', { useNewUrlParser: true });
 }
 
 const userSchema = new mongoose.Schema({
